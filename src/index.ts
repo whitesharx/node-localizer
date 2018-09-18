@@ -9,7 +9,7 @@ export default class Localizer {
     private localization: ILocalization;
     private options: IOptions;
 
-    constructor(localizationOrPath?: ILocalization | string, options?: IArgOptions) {
+    constructor(localizationOrPath?: ILocalization | string, options?: IOptions) {
         this.setOptions(options);
         if (!localizationOrPath) {
             return;
@@ -34,7 +34,7 @@ export default class Localizer {
 
     public loadLocalization = (path: string): Promise<Localizer> => {
         return load(path)
-            .then((JSONLocalization)=>{
+            .then((JSONLocalization) => {
                 this.localization = JSON.parse(JSONLocalization);
                 return this;
             });
@@ -56,13 +56,12 @@ export default class Localizer {
         return this;
     }
 
-    public setOptions = (options?: IArgOptions): Localizer => {
+    public setOptions = (options?: IOptions): Localizer => {
         const firstKey = Object.keys(this.localization)[0];
         const firstLocal = firstKey && Object.keys(this.localization[firstKey])[0];
-        const local = options && options.local || firstLocal || 'en';
-        const defaultLocal = options && options.default || firstLocal || 'en';
-        const memoizeLoad = options && options.memoizeLoad || false;
-        this.options = {default: defaultLocal, local, memoizeLoad};
+        const local = options && options.local;
+        const defaultLocal = options && options.default;
+        this.options = {default: defaultLocal, local};
         return this;
     }
 
@@ -80,9 +79,14 @@ export default class Localizer {
                 return value1;
             }
         }
-        const value2 = this.localization[key][this.options.local];
-        if (value2) {
-            return value2;
+        if (this.options.local) {
+            const value2 = this.localization[key][this.options.local];
+            if (value2) {
+                return value2;
+            }
+        }
+        if (!this.options.default) {
+            throw new Error('Localization was\'t found!');
         }
         const value3 = this.localization[key][this.options.default];
         if (value3) {
@@ -102,16 +106,10 @@ export interface ILocalizationItem {
     [local: string]: string;
 }
 
-export interface IArgOptions {
+
+export interface IOptions {
     default?: string,
     local?: string,
-    memoizeLoad?: boolean;
-}
-
-export interface IOptions extends IArgOptions{
-    default: string,
-    local: string,
-    memoizeLoad: boolean,
 }
 
 function syncLoad(rout: string, encode: string = 'utf-8'): string {

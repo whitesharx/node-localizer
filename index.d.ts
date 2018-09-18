@@ -1,5 +1,5 @@
 export default class Localizer {
-    constructor(localizationOrPath?: ILocalization | string, options?: IArgOptions);
+    constructor(localizationOrPath?: ILocalization | string, options?: IOptions);
 
     setLocalization(localization: ILocalization): Localizer;
 
@@ -13,7 +13,7 @@ export default class Localizer {
 
     setDefault(defaultLocal: string): Localizer;
 
-    setOptions(options?: IArgOptions): Localizer;
+    setOptions(options?: IOptions): Localizer;
 
     get({key, local, replacements}: { key: string, local?: string, replacements?: string[] }): string;
 
@@ -26,14 +26,8 @@ interface ILocalization {
 interface ILocalizationItem {
     [local: string]: string;
 }
-interface IArgOptions {
+
+interface IOptions{
     default?: string,
     local?: string,
-    memoizeLoad?: boolean;
-}
-
-interface IOptions extends IArgOptions {
-    default: string,
-    local: string,
-    memoizeLoad: boolean,
 }
