@@ -1,6 +1,6 @@
 {
   "name": "node-localizer",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
@@ -8,6 +8,18 @@
   },
   "author": "Alex Natashkin <natashkinsasha@gmail.com>",
   "license": "ISC",
+  "keywords": [
+    "localizer",
+    "n18"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Natashkinsasha/node-localizer"
+  },
+  "bugs": {
+    "url": "https://github.com/Natashkinsasha/node-localizer/issues",
+    "email": "natashkinsasga@gmail.com"
+  },
   "dependencies": {
     "app-root-path": "^2.1.0",
     "lodash.merge": "^4.6.1",
