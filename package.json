@@ -1,0 +1,24 @@
+{
+  "name": "node-localizer",
+  "version": "0.0.4",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rimraf ./dist && tsc --p tsconfig.json"
+  },
+  "author": "Alex Natashkin <natashkinsasha@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "app-root-path": "^2.1.0",
+    "lodash.merge": "^4.6.1",
+    "string-format": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/app-root-path": "^1.2.4",
+    "@types/lodash.merge": "^4.6.4",
+    "@types/node": "^10.10.1",
+    "@types/string-format": "^2.0.0",
+    "rimraf": "^2.6.2",
+    "typescript": "^3.0.3"
+  }
+}
