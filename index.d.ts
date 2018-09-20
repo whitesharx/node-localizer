@@ -1,4 +1,8 @@
-export default class Localizer {
+import IOptions = Localizer.IOptions;
+import ILocalization = Localizer.ILocalization;
+
+declare class Localizer {
+
     constructor(localizationOrPath?: ILocalization | string, options?: IOptions);
 
     setLocalization(localization: ILocalization): Localizer;
@@ -21,15 +25,21 @@ export default class Localizer {
 
 }
 
-interface ILocalization {
-    [key: string]: ILocalizationItem;
+declare namespace Localizer {
+    interface ILocalization {
+        [key: string]: ILocalizationItem;
+    }
+
+    interface ILocalizationItem {
+        [local: string]: string;
+    }
+
+    interface IOptions {
+        default?: string,
+        local?: string,
+    }
 }
 
-interface ILocalizationItem {
-    [local: string]: string;
-}
+export = Localizer
 
-interface IOptions{
-    default?: string,
-    local?: string,
-}
+
