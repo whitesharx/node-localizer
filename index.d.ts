@@ -17,6 +17,8 @@ export default class Localizer {
 
     get({key, local, replacements}: { key: string, local?: string, replacements?: string[] }): string;
 
+    getOptions(): IOptions;
+
 }
 
 interface ILocalization {

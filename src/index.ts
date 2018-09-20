@@ -9,8 +9,7 @@ export default class Localizer {
     private localization: ILocalization;
     private options: IOptions;
 
-    constructor(localizationOrPath?: ILocalization | string, options?: IOptions) {
-        this.setOptions(options);
+    constructor(localizationOrPath: ILocalization | string = {}, options: IOptions = {}) {
         if (!localizationOrPath) {
             return;
         }
@@ -19,6 +18,7 @@ export default class Localizer {
         } else {
             this.setLocalization(localizationOrPath);
         }
+        this.setOptions(options);
     }
 
     public setLocalization = (localization: ILocalization): Localizer => {
@@ -67,6 +67,10 @@ export default class Localizer {
 
     public get = ({key, local, replacements = []}: { key: string, local?: string, replacements?: string[] }): string => {
         return format(this.getValue({key, local}), ...replacements);
+    }
+
+    public getOptions = (): IOptions =>{
+        return this.options;
     }
 
     private getValue = ({key, local}: { key: string, local?: string }): string => {
