@@ -36,12 +36,17 @@ describe('Tests', () => {
                     TEST2: {
                         en: "test2",
                         ru: "тест2"
+                    },
+                    TEST3: {
+                        en: "test{0}",
+                        ru: "тест{0}"
                     }
                 }, {default: "en", local: "ru"}
             );
-            expect(localizer.get({key: "TEST"})).to.be.deep.equal( { text: 'тест', local: 'ru' });
-            expect(localizer.get({key: "TEST", local: "cz"})).to.be.deep.equal({ text: 'kvíz', local: 'cz' });
-            expect(localizer.get({key: "TEST2", local: "cz"})).to.be.deep.equal( { text: 'test2', local: 'en' });
+            expect(localizer.get({key: "TEST"})).to.be.deep.equal({text: 'тест', local: 'ru'});
+            expect(localizer.get({key: "TEST", local: "cz"})).to.be.deep.equal({text: 'kvíz', local: 'cz'});
+            expect(localizer.get({key: "TEST2", local: "cz"})).to.be.deep.equal({text: 'test2', local: 'en'});
+            expect(localizer.get({key: "TEST3", local: "ru", replacements: ["3"]})).to.be.deep.equal({text: 'тест3', local: 'ru'});
         })
     });
 
