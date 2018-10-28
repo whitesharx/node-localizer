@@ -65,38 +65,47 @@ export default class Localizer {
         return this;
     }
 
-    public get = ({key, local, replacements = []}: { key: string, local?: string, replacements?: string[] }): string => {
-        return format(this.getValue({key, local}), ...replacements);
+    public get = ({key, local, replacements = []}: { key: string, local?: string, replacements?: string[] }): { text: string, local: string } | undefined => {
+        const value = this.getValue({key, local})
+        if (!value) {
+            return;
+        }
+        return {text: format(value.text, ...replacements), local: value.local};
     }
 
-    public getOptions = (): IOptions =>{
+    public getOptions = (): IOptions => {
         return this.options;
     }
 
-    private getValue = ({key, local}: { key: string, local?: string }): string => {
+    private getValue = ({key, local}: { key: string, local?: string }): { text: string, local: string } | undefined => {
         if (!this.localization[key]) {
-            throw new Error('Localization was\'t found!')
+            return;
         }
         if (local) {
-            const value1 = this.localization[key][local];
-            if (value1) {
-                return value1;
+            const text = this.localization[key][local];
+            if (text) {
+                return {text, local};
+            }
+        }
+        if (local && this.options.default) {
+            const text = this.localization[key][this.options.default];
+            if (text) {
+                return {text, local: this.options.default};
             }
         }
         if (this.options.local) {
-            const value2 = this.localization[key][this.options.local];
-            if (value2) {
-                return value2;
+            const text = this.localization[key][this.options.local];
+            if (text) {
+                return {text, local: this.options.local};
             }
         }
-        if (!this.options.default) {
-            throw new Error('Localization was\'t found!');
+        if (this.options.default) {
+            const text = this.localization[key][this.options.default];
+            if (text) {
+                return {text, local: this.options.default};
+            }
         }
-        const value3 = this.localization[key][this.options.default];
-        if (value3) {
-            return value3;
-        }
-        throw new Error('Localization was\'t found!');
+        return;
     }
 
 }

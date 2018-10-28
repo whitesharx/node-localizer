@@ -22,13 +22,15 @@ This library is quite fresh, and maybe has bugs. Write me an **email** to *natas
 ```javascript
 const Localizer = require('node-localizer');
 
-const localizer = new Localizer('localization.json', {local: 'en', default: 'en'});
+const localizer = new Localizer({TEST: {en: "test", ru: "тест", cz: "kvíz"}}, {local: 'en', default: 'en'});
 
-let test = localizer.get({key: 'test'}); //test
+let test = localizer.get({key: 'TEST'}); // { text: "test", local: "en" }
 
 localizer.setLocal('cz');
 
-test = localizer.get({key: 'test'}); //kvíz
+test = localizer.get({key: 'TEST'}); // { text: "kvíz", local: "cz" }
 
-test = localizer.get({key: 'test', local: 'ru'}); //тест
+test = localizer.get({key: 'TEST', local: 'ru'}); // { text: "тест", local: "ru" }
+
+
 ```
