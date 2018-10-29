@@ -47,7 +47,7 @@ export default class Localizer {
     }
 
     public setLocal = (local: string): Localizer => {
-        this.options = {...this.options, local};
+        this.options = {...this.options, locale: local};
         return this;
     }
 
@@ -57,52 +57,48 @@ export default class Localizer {
     }
 
     public setOptions = (options?: IOptions): Localizer => {
-        const firstKey = Object.keys(this.localization)[0];
-        const firstLocal = firstKey && Object.keys(this.localization[firstKey])[0];
-        const local = options && options.local;
-        const defaultLocal = options && options.default;
-        this.options = {default: defaultLocal, local};
+        this.options = {...this.options, ...options};
         return this;
     }
 
-    public get = ({key, local, replacements = []}: { key: string, local?: string, replacements?: string[] }): { text: string, local: string } | undefined => {
-        const value = this.getValue({key, local})
+    public get = ({key, locale, replacements = []}: { key: string, locale?: string, replacements?: string[] }): { text: string, locale: string } | undefined => {
+        const value = this.getValue({key, locale})
         if (!value) {
             return;
         }
-        return {text: format(value.text, ...replacements), local: value.local};
+        return {text: format(value.text, ...replacements), locale: value.locale};
     }
 
     public getOptions = (): IOptions => {
         return this.options;
     }
 
-    private getValue = ({key, local}: { key: string, local?: string }): { text: string, local: string } | undefined => {
+    private getValue = ({key, locale}: { key: string, locale?: string }): { text: string, locale: string } | undefined => {
         if (!this.localization[key]) {
             return;
         }
-        if (local) {
-            const text = this.localization[key][local];
+        if (locale) {
+            const text = this.localization[key][locale];
             if (text) {
-                return {text, local};
+                return {text, locale};
             }
         }
-        if (local && this.options.default) {
+        if (locale && this.options.default) {
             const text = this.localization[key][this.options.default];
             if (text) {
-                return {text, local: this.options.default};
+                return {text, locale: this.options.default};
             }
         }
-        if (this.options.local) {
-            const text = this.localization[key][this.options.local];
+        if (this.options.locale) {
+            const text = this.localization[key][this.options.locale];
             if (text) {
-                return {text, local: this.options.local};
+                return {text, locale: this.options.locale};
             }
         }
         if (this.options.default) {
             const text = this.localization[key][this.options.default];
             if (text) {
-                return {text, local: this.options.default};
+                return {text, locale: this.options.default};
             }
         }
         return;
@@ -122,7 +118,7 @@ export interface ILocalizationItem {
 
 export interface IOptions {
     default?: string,
-    local?: string,
+    locale?: string,
 }
 
 function syncLoad(rout: string, encode: string = 'utf-8'): string {

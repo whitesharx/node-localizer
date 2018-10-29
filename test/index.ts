@@ -11,7 +11,7 @@ describe('Tests', () => {
             const local = 'en';
             localizer.setLocal(local);
             const options = localizer.getOptions();
-            expect(options.local).to.be.equal(local);
+            expect(options.locale).to.be.equal(local);
         })
     });
 
@@ -41,12 +41,12 @@ describe('Tests', () => {
                         en: "test{0}",
                         ru: "тест{0}"
                     }
-                }, {default: "en", local: "ru"}
+                }, {default: "en", locale: "ru"}
             );
-            expect(localizer.get({key: "TEST"})).to.be.deep.equal({text: 'тест', local: 'ru'});
-            expect(localizer.get({key: "TEST", local: "cz"})).to.be.deep.equal({text: 'kvíz', local: 'cz'});
-            expect(localizer.get({key: "TEST2", local: "cz"})).to.be.deep.equal({text: 'test2', local: 'en'});
-            expect(localizer.get({key: "TEST3", local: "ru", replacements: ["3"]})).to.be.deep.equal({text: 'тест3', local: 'ru'});
+            expect(localizer.get({key: "TEST"})).to.be.deep.equal( { text: 'тест', locale: 'ru' });
+            expect(localizer.get({key: "TEST", locale: "cz"})).to.be.deep.equal({text: 'kvíz', locale: 'cz'});
+            expect(localizer.get({key: "TEST2", locale: "cz"})).to.be.deep.equal({text: 'test2', locale: 'en'});
+            expect(localizer.get({key: "TEST3", locale: "ru", replacements: ["3"]})).to.be.deep.equal({text: 'тест3', locale: 'ru'});
         })
     });
 
